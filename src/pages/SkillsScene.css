@@ -1,0 +1,9 @@
+canvas {
+  display: block;
+}
+
+.skill-label {
+  font-family: sans-serif;
+  color: #fff;
+  text-shadow: 0 0 4px #000;
+}

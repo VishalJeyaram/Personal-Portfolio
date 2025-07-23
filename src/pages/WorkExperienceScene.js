@@ -1,0 +1,35 @@
+
+import React from 'react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
+import StaticStars from '../components/StaticStars';
+import { EffectComposer, DepthOfField } from '@react-three/postprocessing';
+import './WorkExperienceScene.css';
+import TimelineContent from '../components/work_experience/TimelineContent';
+
+
+export default function WorkExperienceScene() {
+  return (
+    <div className="work-scene-container">
+      <Canvas camera={{ position: [0, 2, 15], fov: 55 }}>
+        {/* Dynamic sky dome */}
+
+        {/* Lights */}
+        <pointLight position={[10, 10, 10]} intensity={2} color="#00bfff" />
+
+        <TimelineContent />
+
+        {/* Orbit controls */}
+        <OrbitControls enableZoom enablePan={false} />
+
+        {/* Space background */}
+        <StaticStars />
+
+        {/* Postprocessing for bloom & DOF */}
+        <EffectComposer multisampling={8}>
+          <DepthOfField focusDistance={0.01} focalLength={0.02} bokehScale={2} />
+        </EffectComposer>
+      </Canvas>
+    </div>
+  );
+}

@@ -1,0 +1,101 @@
+.home-blank {
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  position: relative; /* Required for positioning child elements absolutely */
+}
+
+.center-profile-pic {
+  width: 600px;
+  height: 600px;
+  object-fit: cover;
+}
+
+.name-top-left {
+  position: absolute;
+  top: 30%; /* Center vertically */
+  left: 150px; /* Push slightly right from the left edge */
+  transform: translateY(-50%); /* Adjust for perfect vertical center */
+  color: white;
+  font-size: 4rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+}
+
+.titles-below-name {
+  position: absolute;
+  top: 39%; /* Slightly below the name */
+  left: 70px;
+  transform: translateY(-50%);
+  color: #cccccc;
+  font-size: 1.5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+}
+
+.cosmic-box {
+  padding: 12px 20px;
+  border: 1px solid #00bfff;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 15px #00bfff88;
+  display: inline-block;
+  color: #ffffff;
+}
+
+.quote-below-title {
+  position: absolute;
+  top: 49%; /* Slightly below the name */
+  left: 70px;
+  transform: translateY(-50%);
+  max-width: 578px;
+  font-size: 1rem;
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1.6;
+  color: #ffffff;
+}
+
+.quote-author {
+  font-size: 0.9rem;
+  color: #87cefa; /* Optional: light blue tone for attribution */
+  font-style: italic;
+}
+
+.zoom-button {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #00bfff;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  z-index: 2;
+}
+
+.zoom-button:hover {
+  background-color: #009acd;
+}
+
+.zoom-out {
+  animation: zoomOutAnimation 1s forwards;
+}
+
+@keyframes zoomOutAnimation {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.05);
+    opacity: 0;
+  }
+}

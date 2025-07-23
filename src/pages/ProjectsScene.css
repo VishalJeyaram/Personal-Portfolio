@@ -1,0 +1,197 @@
+/* src/pages/ProjectsScene.css */
+
+/* Container for the two side-by-side modals */
+.project-modal-container {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  width: 100vw;
+  padding: 0 2vw;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+/* Shared styling for both panels */
+.project-modal-left,
+.project-modal-right {
+  background: rgba(0, 10, 20, 0.95);
+  border: 2px solid #00ffff;
+  border-radius: 8px;
+  padding: 24px;
+  color: #ccffff;
+  box-shadow: 0 0 20px #00ffff88;
+  max-width: 25vw;    /* reduced from 30vw */
+  width: 100%;
+  overflow-y: auto;
+  align-self: center;
+}
+
+/* Headings inside each panel */
+.project-modal-left h3,
+.project-modal-right h3 {
+  margin-top: 0;
+  color: #00ffff;
+}
+
+/* Tech-stack list (left panel) */
+.project-modal-left ul {
+  list-style: disc inside;
+  padding-left: 0;
+  margin-bottom: 16px;
+}
+.project-modal-left li {
+  margin-bottom: 4px;
+}
+
+/* Links in the left panel */
+.modal-links {
+  margin-top: 16px;
+}
+.modal-links a {
+  display: inline-block;
+  margin-right: 12px;
+  color: #00bfff;
+  text-decoration: none;
+}
+
+/* Close button in the right panel */
+.project-modal-right button {
+  margin-top: 16px;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid #00ffff;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #ccffff;
+}
+
+
+/* Adjusted top panel to sit higher */
+.project-modal-top {
+  position: fixed;
+  top: 4%;              /* moved from 10% up to 5% */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 10, 20, 0.95);
+  border: 2px solid #00ffff;
+  border-radius: 8px;
+  padding: 16px 24px;
+  color: #ccffff;
+  box-shadow: 0 0 20px #00ffff88;
+  max-width: 80vw;
+  width: auto;
+  z-index: 11;
+  text-align: center;
+}
+
+.project-modal-top h3 {
+  margin: 0;
+  font-size: 3.25rem;
+  color: #00ffff;
+}
+
+.project-modal-bottom {
+  position: fixed;
+  bottom: 6%;              /* moved from 10% up to 5% */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 10, 20, 0.95);
+  border: 2px solid #00ffff;
+  border-radius: 8px;
+  padding: 16px 24px;
+  color: #ccffff;
+  box-shadow: 0 0 20px #00ffff88;
+  max-width: 80vw;
+  width: auto;
+  z-index: 11;
+  text-align: center;
+  cursor: pointer;     
+}
+
+.project-modal-bottom h3 {
+  margin: 0;
+  font-size: 2.25rem;
+  color: #00ffff;
+  cursor: pointer;     
+}
+
+.project-modal-bottom:hover {
+  background-color: #00ffff;
+  color: #000000;
+  box-shadow: 0 0 20px #00ffff;
+}
+
+.project-modal-bottom:hover h3 {
+  color: #000000;
+}
+
+.filter-bar-retro {
+  position: absolute;
+  top: 4%;
+  left: 1%;      /* anchor to the left instead of right */
+  right: auto;   /* remove any right positioning */
+  transform: none;
+  background: rgba(0, 10, 20, 0.85);
+  border: 2px solid #00ffff;
+  border-radius: 12px;
+  padding: 16px 32px;
+  z-index: 10;
+  box-shadow: 0 0 20px #00ffff88;
+  display: flex;
+  gap: 20px;
+  animation: fadeInDown 0.5s ease-out;
+}
+
+/* Retro‐style label next to the dropdown */
+.filter-bar-retro label {
+  background: transparent;
+  color: #00ffff;
+  padding: 8px 16px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: default;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+/* Dropdown itself */
+.filter-dropdown-retro {
+  background: transparent;
+  color: #00ffff;
+  border: 2px solid #00ffff;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 0 10px #00ffff88;
+  outline: none;
+  transition: all 0.3s ease;
+  width: 15vw;       /* bar will span 40% of viewport width */
+  text-align: center;
+  /* ensures Firefox and IE also center the last line */
+  text-align-last: center;
+}
+
+.filter-dropdown-retro:hover {
+  background-color: #00ffff;
+  color: #000000;
+  box-shadow: 0 0 20px #00ffff;
+}
+
+/* Reuse your fadeInUp keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 10%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}

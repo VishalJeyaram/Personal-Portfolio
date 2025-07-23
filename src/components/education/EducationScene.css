@@ -1,0 +1,54 @@
+/* src/components/EducationScene.css */
+
+.edu-modal {
+  position: absolute;
+  top: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+
+  background: rgba(0, 10, 20, 0.85);
+  border: 2px solid #00ffff;
+  border-radius: 12px;
+  padding: 16px 24px;
+  text-align: center;
+  box-shadow: 0 0 12px #00ffff66;
+  z-index: 10;
+  animation: fadeInUp 0.8s ease-out;
+  width: 50vw;
+}
+
+.edu-modal h2 {
+  font-size: 1.5rem;
+  color: #00ffff;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+  text-shadow: 0 0 6px #00ffff, 0 0 8px #003355;
+}
+
+.edu-modal-list {
+  list-style: disc inside;
+  margin: 0.5rem 0;
+  padding: 0;
+  text-align: left;
+  color: #ccc;
+  font-size: 1.5rem;
+}
+.edu-modal-list li {
+  margin-bottom: 0.4rem;
+  line-height: 1.3;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    top: 20%;
+  }
+  to {
+    opacity: 1;
+    top: 14%;
+  }
+}

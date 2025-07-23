@@ -1,0 +1,30 @@
+.info-overlay {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.7);
+  font-family: sans-serif;
+}
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.info-overlay h2 {
+  margin-top: 0;
+}
+.info-overlay ul {
+  padding-left: 1.2rem;
+  margin: 0.5rem 0 0 0;
+}

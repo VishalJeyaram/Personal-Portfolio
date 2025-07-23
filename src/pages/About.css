@@ -1,0 +1,172 @@
+/* About.css - Step 1: Basic full-screen container */
+
+.about-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+canvas {
+  display: block;
+}
+
+/* Optional enhancements for later */
+.line-ring {
+  stroke: #88aacc;
+  stroke-opacity: 0.3;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(ellipse at center, #000000 0%, #111111 100%);
+  color: #00ffff;
+  font-family: 'Orbitron', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  text-align: center;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.loading-title {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px #00ffff;
+}
+
+.loading-text {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #ccffff;
+  letter-spacing: 1.5px;
+}
+
+.loading-bar {
+  width: 60%;
+  height: 12px;
+  border: 2px solid #00ffff;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #001d1d;
+  box-shadow: 0 0 20px #00ffff88;
+}
+
+.loading-fill {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, #00ffff, #00ccff);
+  animation: fillProgress 2.3s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes fillProgress {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
+
+.scene-blur-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.zoom-modal {
+  position: absolute;
+  top: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 10, 20, 0.85);
+  border: 2px solid #00ffff;
+  border-radius: 12px;
+  padding: 32px 48px;
+  text-align: center;
+  box-shadow: 0 0 20px #00ffff88;
+  z-index: 10;
+  animation: fadeInUp 1s ease-out;
+}
+
+.zoom-modal h2 {
+  font-size: 1.5rem;
+  color: #00ffff;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  text-shadow: 0 0 8px #00ffff, 0 0 12px #003355;
+}
+
+.zoom-modal button {
+  padding: 16px 32px;
+  font-size: 1.25rem;
+  color: #00ffff;
+  background: transparent;
+  border: 2px solid #00ffff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 0 10px #00ffff88;
+}
+
+.zoom-modal button:hover {
+  background-color: #00ffff;
+  color: #000000;
+  box-shadow: 0 0 20px #00ffff;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 10%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0%);
+  }
+}
+
+.hyperspace-flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle, #ffffff 0%, #000000 100%);
+  animation: flashExpand 0.8s ease-out forwards;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+@keyframes flashExpand {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(4);
+  }
+}

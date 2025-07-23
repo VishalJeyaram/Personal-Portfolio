@@ -1,0 +1,56 @@
+.landing-container {
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  gap: 90px;
+  font-family: 'Montserrat', sans-serif;
+  flex-wrap: wrap;
+}
+
+.text-content {
+  max-width: 500px;
+}
+
+.name-highlight {
+  color: #00ffe5;
+}
+
+.portfolio-button {
+  margin-top: 20px;
+  padding: 16px 32px;
+  font-size: 1.25rem;
+  color: #00ffff;
+  background: transparent;
+  border: 2px solid #00ffff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 0 10px #00ffff88;
+}
+
+.portfolio-button:hover {
+  background-color: #00ffff;
+  color: #000000;
+  box-shadow: 0 0 20px #00ffff;
+}
+
+.image-container {
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 255, 229, 0.5);
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
