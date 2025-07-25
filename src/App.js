@@ -1,3 +1,4 @@
+// src/App.js
 import React, { useState, useRef, useEffect } from 'react';
 import {
   BrowserRouter as Router,
@@ -23,26 +24,47 @@ function MusicProvider({ children }) {
   const [musicEnabled, setMusicEnabled] = useState(false);
   const audioRef = useRef(null);
 
+  // track whether we've already auto–started on /about
+  const hasAutoStartedRef = useRef(false);
+
+  // initialize audio once
   useEffect(() => {
     audioRef.current = new Audio('/music/love_train.mp3');
     audioRef.current.loop = true;
     audioRef.current.volume = 0.4;
   }, []);
 
+  // auto–play the first time the user arrives on /about
   useEffect(() => {
-    if (location.pathname === '/about' && !musicEnabled) {
+    if (
+      location.pathname === '/about' &&
+      !musicEnabled &&
+      !hasAutoStartedRef.current
+    ) {
       setMusicEnabled(true);
-    } 
-  }, [location.pathname]);
+      hasAutoStartedRef.current = true;
+    }
+  }, [location.pathname, musicEnabled]);
 
+  // play or pause whenever musicEnabled changes
   useEffect(() => {
     if (!audioRef.current) return;
-    musicEnabled
-      ? audioRef.current.play().catch(() => {})
-      : audioRef.current.pause();
+    if (musicEnabled) {
+      audioRef.current.play().catch(() => {});
+    } else {
+      audioRef.current.pause();
+    }
   }, [musicEnabled]);
 
-  const showToggle = ['/about', '/projects', '/education', '/workexperience', '/skills', '/home'].includes(location.pathname);
+  // only show the toggle on these routes
+  const showToggle = [
+    '/about',
+    '/projects',
+    '/education',
+    '/workexperience',
+    '/skills',
+    '/home'
+  ].includes(location.pathname);
 
   return (
     <>
@@ -61,8 +83,8 @@ export default function App() {
   return (
     <Router>
       <MusicProvider>
-      <AboutThisApp />
-      <BackToAboutButton />
+        <AboutThisApp />
+        <BackToAboutButton />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<Home />} />
