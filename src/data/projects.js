@@ -380,8 +380,7 @@ const projects = [
     'HTML5 Audio API',
     'CSS Modules'
   ],
-  website: 'https://your-portfolio-url.com',
-  github: 'https://github.com/yourusername/portfolio',
+  github: 'https://github.com/VishalJeyaram/Personal-Portfolio',
   categories: ['Software & Development', 'Creative & Visual'],
   subCategories: ['React']
 },
