@@ -1,4 +1,3 @@
-// src/pages/ProjectsScene.js
 import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber';
 import { Stars, OrbitControls, Text, Billboard } from '@react-three/drei';
@@ -7,7 +6,6 @@ import { TextureLoader } from 'three';
 import projects, { CATEGORIES } from '../data/projects';
 import './ProjectsScene.css';
 
-// Fibonacci‐sphere point distribution
 function getCoordinates(index, total, radius) {
   const offset = 2 / total;
   const increment = Math.PI * (3 - Math.sqrt(5));
@@ -21,7 +19,6 @@ function getCoordinates(index, total, radius) {
   ];
 }
 
-// Interactive project sprite
 function ProjectDust({ position, texture, onClick, disabled, setHoverCursor }) {
   const ref = useRef();
   const [hovered, setHovered] = useState(false);
@@ -71,21 +68,17 @@ function ProjectDust({ position, texture, onClick, disabled, setHoverCursor }) {
   );
 }
 
-// Capture Three.js camera for zoom-out
 function CameraRefSetter({ cameraRef }) {
   const { camera } = useThree();
-  useEffect(() => {
-    cameraRef.current = camera;
-  }, [camera, cameraRef]);
+  useEffect(() => { cameraRef.current = camera }, [camera, cameraRef]);
   return null;
 }
 
-// Animate camera in/out
 function CameraAnimator({ mode, target, initialPos, onZoomOutComplete }) {
   const { camera } = useThree();
   const defaultPos = useMemo(() => initialPos.clone(), [initialPos]);
   const zoomPos = useMemo(
-    () => (target ? new THREE.Vector3(...target).multiplyScalar(1.1) : null),
+    () => target ? new THREE.Vector3(...target).multiplyScalar(1.1) : null,
     [target]
   );
 
@@ -108,46 +101,44 @@ export default function ProjectsScene() {
   const cameraRef = useRef();
   const initialCamPosRef = useRef(new THREE.Vector3(0, 0, 12));
 
-  // camera & selection state
-  const [cameraMode, setCameraMode] = useState('free'); // 'free' | 'zoomin' | 'zoomout'
+  const [cameraMode, setCameraMode] = useState('free'); 
   const [cameraTarget, setCameraTarget] = useState(null);
   const [selected, setSelected] = useState(null);
   const [hoverCursor, setHoverCursor] = useState(false);
 
   // filter state
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedTag, setSelectedTag] = useState('');
+  const [selectedSubCategory, setSelectedSubCategory] = useState('');
   const categoryNames = useMemo(() => Object.keys(CATEGORIES), []);
-  const tagOptions = useMemo(
-    () => (selectedCategory ? CATEGORIES[selectedCategory] : []),
+  const subOptions = useMemo(
+    () => selectedCategory ? CATEGORIES[selectedCategory] : [],
     [selectedCategory]
   );
 
-  // load textures & compute positions
   const projectTextures = useLoader(TextureLoader, projects.map(p => p.image));
   const projectPositions = useMemo(
     () => projects.map((_, i) => getCoordinates(i, projects.length, 8)),
     []
   );
 
-  // filtering logic
   const filteredIndices = useMemo(() => {
-    if (!selectedCategory) return projects.map((_, i) => i);
-    if (!selectedTag) {
-      const tags = CATEGORIES[selectedCategory];
-      return projects
-        .map((p, i) => (p.techStack.some(t => tags.includes(t)) ? i : null))
-        .filter(i => i != null);
-    }
     return projects
-      .map((p, i) => (p.techStack.includes(selectedTag) ? i : null))
+      .map((p, i) => {
+        // unify both singular `category` & future plural `categories`
+        const cats = p.category ?? p.categories ?? [];
+        if (selectedCategory && !cats.includes(selectedCategory)) return null;
+
+        const subs = p.subCategories ?? [];
+        if (selectedSubCategory && !subs.includes(selectedSubCategory)) return null;
+
+        return i;
+      })
       .filter(i => i != null);
-  }, [selectedCategory, selectedTag]);
+  }, [selectedCategory, selectedSubCategory]);
 
   const disabled = cameraMode !== 'free';
   const showModal = cameraMode === 'zoomin';
 
-  // click handlers
   const handleProjectClick = idx => {
     if (cameraRef.current) initialCamPosRef.current = cameraRef.current.position.clone();
     setCameraTarget(projectPositions[idx]);
@@ -162,16 +153,16 @@ export default function ProjectsScene() {
 
   return (
     <>
-      {/* Filter bar (only when fully zoomed out) */}
+      {/* Filter bar */}
       {cameraMode === 'free' && (
         <div className="filter-bar-retro">
-          <label>Filter Projects</label>
+          <label>Category</label>
           <select
             className="filter-dropdown-retro"
             value={selectedCategory}
             onChange={e => {
               setSelectedCategory(e.target.value);
-              setSelectedTag('');
+              setSelectedSubCategory('');
             }}
           >
             <option value="">All</option>
@@ -179,23 +170,28 @@ export default function ProjectsScene() {
               <option key={cat} value={cat}>{cat}</option>
             ))}
           </select>
+
           {selectedCategory && (
-            <select
-              className="filter-dropdown-retro"
-              value={selectedTag}
-              onChange={e => setSelectedTag(e.target.value)}
-            >
-              <option value="">All</option>
-              {tagOptions.map(tag => (
-                <option key={tag} value={tag}>{tag}</option>
-              ))}
-            </select>
+            <>
+              <label>Subcategory</label>
+              <select
+                className="filter-dropdown-retro"
+                value={selectedSubCategory}
+                onChange={e => setSelectedSubCategory(e.target.value)}
+              >
+                <option value="">All</option>
+                {subOptions.map(sub => (
+                  <option key={sub} value={sub}>{sub}</option>
+                ))}
+              </select>
+            </>
           )}
         </div>
       )}
 
+      {/* 3D canvas */}
       <Canvas
-        camera={{ position: initialCamPosRef.current.toArray(), fov: 95 }}
+        camera={{ position: initialCamPosRef.current.toArray(), fov: 100 }}
         style={{
           width: '100vw',
           height: '100vh',
@@ -204,14 +200,11 @@ export default function ProjectsScene() {
         }}
       >
         <CameraRefSetter cameraRef={cameraRef} />
-
         <ambientLight intensity={0.3} />
         <pointLight position={[5, 5, 5]} intensity={1.2} />
         <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade />
-
         <OrbitControls enablePan={false} enableZoom={!disabled} enableRotate={!disabled} />
 
-        {/* Project sprites */}
         {filteredIndices.map(i => (
           <ProjectDust
             key={projects[i].id}
@@ -223,7 +216,7 @@ export default function ProjectsScene() {
           />
         ))}
 
-        {/* Billboarded labels (depth-tested, always facing camera) */}
+        {/* Billboarded labels */}
         {cameraMode === 'free' && filteredIndices.map(i => (
           <Billboard
             key={`label-${projects[i].id}`}
@@ -233,9 +226,6 @@ export default function ProjectsScene() {
               projectPositions[i][2]
             ]}
             follow
-            lockX={false}
-            lockY={false}
-            lockZ={false}
           >
             <Text
               font="/fonts/Orbitron-VariableFont_wght.ttf"
@@ -251,7 +241,7 @@ export default function ProjectsScene() {
           </Billboard>
         ))}
 
-        {/* Camera animation */}
+        {/* Camera animations */}
         {(cameraMode === 'zoomin' || cameraMode === 'zoomout') && (
           <CameraAnimator
             mode={cameraMode}
@@ -262,34 +252,26 @@ export default function ProjectsScene() {
         )}
       </Canvas>
 
-      {/* Project modals */}
+      {/* Zoomed-in modal */}
       {showModal && selected && (
         <>
-          <div className="project-modal-top">
-            <h3>{selected.name}</h3>
-          </div>
+          <div className="project-modal-top"><h3>{selected.name}</h3></div>
           <div className="project-modal-container">
             <div className="project-modal-left">
               <h3>Tech Stack</h3>
-              <ul>
-                {selected.techStack.map(tech => (
-                  <li key={tech}>{tech}</li>
-                ))}
+              <ul className="project-description">
+                {selected.techStack.map(t => <li key={t}>{t}</li>)}
               </ul>
               <div className="modal-links">
-                {selected.website && (
-                  <a href={selected.website} target="_blank" rel="noopener noreferrer">
-                    Visit Website
-                  </a>
-                )}
-                <a href={selected.github} target="_blank" rel="noopener noreferrer">
-                  View GitHub
-                </a>
+                {selected.website && <a href={selected.website} target="_blank" rel="noopener noreferrer">Website</a>}
+                {selected.github  && <a href={selected.github}  target="_blank" rel="noopener noreferrer">GitHub</a>}
               </div>
             </div>
             <div className="project-modal-right">
               <h3>About {selected.name}</h3>
-              <p>{selected.description}</p>
+              <ul className="project-description">
+                {selected.description.map((line, idx) => <li key={idx}>{line}</li>)}
+              </ul>
             </div>
           </div>
           <div className="project-modal-bottom" onClick={() => setCameraMode('zoomout')}>

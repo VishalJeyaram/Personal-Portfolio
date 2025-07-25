@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useState, useRef, useEffect } from 'react';
 import {
   BrowserRouter as Router,
@@ -15,6 +14,8 @@ import CertificationsScene from './pages/CertificationsScene';
 import WorkExperienceScene from './pages/WorkExperienceScene';
 import SkillsScene from './pages/SkillsScene';
 import MusicToggle from './components/MusicToggle';
+import AboutThisApp from './components/AboutThisApp';
+import BackToAboutButton from './components/BackToAboutButton';
 import './App.css';
 
 function MusicProvider({ children }) {
@@ -22,21 +23,18 @@ function MusicProvider({ children }) {
   const [musicEnabled, setMusicEnabled] = useState(false);
   const audioRef = useRef(null);
 
-  // initialize audio once
   useEffect(() => {
-    audioRef.current = new Audio('/background_2.mp3');
+    audioRef.current = new Audio('/music/love_train.mp3');
     audioRef.current.loop = true;
     audioRef.current.volume = 0.4;
   }, []);
 
-  // start playing when first arriving on /about
   useEffect(() => {
     if (location.pathname === '/about' && !musicEnabled) {
       setMusicEnabled(true);
     } 
   }, [location.pathname]);
 
-  // play/pause when toggled
   useEffect(() => {
     if (!audioRef.current) return;
     musicEnabled
@@ -44,8 +42,7 @@ function MusicProvider({ children }) {
       : audioRef.current.pause();
   }, [musicEnabled]);
 
-  // only render the toggle on /about or /projects
-  const showToggle = ['/about', '/projects', '/education'].includes(location.pathname);
+  const showToggle = ['/about', '/projects', '/education', '/workexperience', '/skills', '/home'].includes(location.pathname);
 
   return (
     <>
@@ -64,6 +61,8 @@ export default function App() {
   return (
     <Router>
       <MusicProvider>
+      <AboutThisApp />
+      <BackToAboutButton />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<Home />} />

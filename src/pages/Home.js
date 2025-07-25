@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../pages/Home.css';
-import profilePic from '../assets/profile-nobg.png';
+import profilePic  from '../data/profile-nobg.png'; 
 
 function Home() {
   const [isZooming, setIsZooming] = useState(false);
   const navigate = useNavigate();
 
   const handleZoomOut = () => {
-    //setIsZooming(true);
-    //setTimeout(() => {
-      navigate('/');
-    //}, 1000); // Match the CSS animation duration
+    navigate('/');
   };
 
   return (
@@ -25,9 +22,28 @@ function Home() {
       </div>
       <img src={profilePic} alt="Vishal Jeyaram" className="center-profile-pic" />
 
-      <button className="zoom-button" onClick={handleZoomOut}>
-        Enter the Cosmos
-      </button>
+      <div className="info-after-title cosmic-box">
+        Software Engineer with a track record of building secure, scalable full-stack applications in agile, DevOps-driven environments. Experienced across government, clinical, and startup domains, delivering accessible and user-centric web solutions. Driven by a passion for creating impactful technologies that solve real-world problems.
+      </div>
+
+      <div className="button-row">
+        <a
+          href="https://www.linkedin.com/in/vishaljeyaram/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="social-button"
+        >
+          <img src={'/home_images/linkedin.png'} alt="GitHub" className="social-icon" />
+        </a>
+        <a
+          href="https://github.com/VishalJeyaram"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="social-button"
+        >
+          <img src={'/home_images/github.png'} alt="LinkedIn" className="social-icon" />
+        </a>
+      </div>
     </div>
   );
 }

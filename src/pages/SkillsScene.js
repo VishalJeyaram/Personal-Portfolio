@@ -1,89 +1,107 @@
 // src/scenes/SkillsScene.jsx
 
-import React, { useRef, useMemo } from 'react';
+import React, { useRef } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { OrbitControls, Billboard, Stars, Text  } from '@react-three/drei';
+import { OrbitControls, Stars, Billboard, Text } from '@react-three/drei';
+import { TextureLoader } from 'three';
 import * as THREE from 'three';
-import { SKILLS } from '../data/skills';
+import { SKILL_CATEGORIES } from '../data/skills';
 import './SkillsScene.css';
 
+function CategoryRing({ category, position, radius = 6, speed = 0.2 }) {
+  const skillsGroup = useRef();
+  const textures = useLoader(
+    TextureLoader,
+    category.skills.map(s => s.image)
+  );
 
-function SkillParticle({ texture, name, initialPos, speed }) {
-  const group = useRef();
-
-  useFrame(() => {
-    if (!group.current) return;
-    // advance toward camera
-    group.current.position.z += speed;
-    // reset when too close
-    if (group.current.position.z > 10) {
-      group.current.position.x = (Math.random() - 0.5) * 12;  // narrower X spread
-      group.current.position.y = (Math.random() - 0.5) * 12;  // narrower Y spread
-      group.current.position.z =
-        -THREE.MathUtils.lerp(10, 30, Math.random());        // new closer Z range
+  useFrame(({ clock }) => {
+    if (skillsGroup.current) {
+      skillsGroup.current.rotation.y = clock.getElapsedTime() * speed;
     }
   });
 
+  const count = category.skills.length;
   return (
-    <group ref={group} position={initialPos}>
-      <Billboard follow lockX={false} lockY={false} lockZ={false}>
-        {/* icon */}
-        <mesh>
-          <planeGeometry args={[1.8, 1.8]} />
-          <meshBasicMaterial map={texture} transparent toneMapped={false} />
-        </mesh>
-        {/* label */}
-        <Text
-          position={[0, 1.3, 0]}
-          fontSize={0.3}
-          color="#fff"
-          anchorX="center"
-          anchorY="bottom"
-        >
-          {name}
-        </Text>
-      </Billboard>
+    <group position={position}>
+      <Text
+        position={[0, 0, 0]}
+        fontSize={0.7}
+        color="#00ffff"
+        anchorX="center"
+        anchorY="middle"
+        outlineWidth={0.01}
+        outlineColor="#00ffff"
+      >
+        {category.category}
+      </Text>
+
+      <group ref={skillsGroup}>
+        {category.skills.map((skill, i) => {
+          const theta = (i / count) * Math.PI * 2;
+          const x = radius * Math.cos(theta);
+          const z = radius * Math.sin(theta);
+          return (
+            <Billboard
+              key={skill.name}
+              position={[x, 0, z]}
+              follow
+              lockX={false}
+              lockY={false}
+              lockZ={false}
+            >
+              <mesh>
+                <planeGeometry args={[1.2, 1.2]} />
+                <meshBasicMaterial
+                  map={textures[i]}
+                  transparent
+                  toneMapped={false}
+                />
+              </mesh>
+              <Text
+                position={[0, -0.9, 0]}
+                fontSize={0.25}
+                color="#ffffff"
+                anchorX="center"
+                anchorY="middle"
+              >
+                {skill.name}
+              </Text>
+            </Billboard>
+          );
+        })}
+      </group>
     </group>
   );
 }
 
 export default function SkillsScene() {
-  // load all skill textures
-  const textures = useLoader(
-    THREE.TextureLoader,
-    SKILLS.map(s => s.image)
-  );
-
-  // one particle per skill, with slower speeds
-  const particles = useMemo(() => {
-    return SKILLS.map((skill, i) => ({
-      texture: textures[i],
-      name: skill.name,
-      speed: THREE.MathUtils.lerp(0.005, 0.02, Math.random()),
-      initialPos: new THREE.Vector3(
-        (Math.random() - 0.5) * 12,                    // X in [-6,6]
-        (Math.random() - 0.5) * 12,                    // Y in [-6,6]
-        -THREE.MathUtils.lerp(10, 30, Math.random())   // Z in [-10,-30]
-      ),
-    }));
-  }, [textures]);
+  const total = SKILL_CATEGORIES.length;
+  const cols  = 2;
+  const rows  = Math.ceil(total / cols);
+  const spacingX = 17;  // horizontal gap
+  const spacingY = 10;   // vertical gap
 
   return (
-    <Canvas camera={{ position: [0, 0, 5], fov: 60 }} style={{ background: '#000' }}>
-      <ambientLight intensity={0.1} />
-      <pointLight position={[5, 5, 5]} intensity={0.8} color="#00bfff" />
+    <Canvas camera={{ position: [0, 0, 20], fov: 60 }} style={{ background: '#000' }}>
+      <ambientLight intensity={0.2} />
+      <pointLight position={[10, 10, 10]} intensity={0.8} color="#00bfff" />
 
-      <Stars radius={100} depth={50} count={2000} factor={4} saturation={0} fade />
+      <Stars radius={100} depth={50} count={1000} factor={4} saturation={0} fade />
 
-      {particles.map((p, idx) => (
-        <SkillParticle
-          key={idx}
-          texture={p.texture}
-          name={p.name}
-          initialPos={p.initialPos.clone()}
-          speed={p.speed}
-        />
-      ))}
+      {SKILL_CATEGORIES.map((cat, idx) => {
+        const row = Math.floor(idx / cols);
+        const col = idx % cols;
+        const x = (col - (cols - 1) / 2) * spacingX;
+        const y = ((rows - 1) / 2 - row) * spacingY;
+        return (
+          <CategoryRing
+            key={cat.category}
+            category={cat}
+            position={[x, y, 0]}
+          />
+        );
+      })}
 
       <OrbitControls enablePan={false} enableZoom={false} />
     </Canvas>

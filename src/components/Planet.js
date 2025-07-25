@@ -1,4 +1,3 @@
-// components/Planet.js
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Sphere } from '@react-three/drei';

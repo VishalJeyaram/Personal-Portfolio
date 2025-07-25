@@ -1,45 +1,54 @@
 import React, { useRef, useState } from 'react';
-import { useFrame, useLoader } from '@react-three/fiber';
+import { useFrame, useLoader, useThree } from '@react-three/fiber';
 import { TextureLoader, Vector3 } from 'three';
+import { useNavigate } from 'react-router-dom';
 
 export default function CenterNode() {
   const sphereRef = useRef();
   const imageRef = useRef();
   const [hovered, setHovered] = useState(false);
   const texture = useLoader(TextureLoader, '/profile.png');
+  const { gl, camera } = useThree();
+  const navigate = useNavigate();  
 
-  useFrame(({ clock, camera }) => {
+  useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
     const pulse = 2.5 + 0.2 * Math.sin(t * 2);
-
-    // Update sphere scale
-    if (sphereRef.current) {
-      sphereRef.current.scale.set(pulse, pulse, pulse);
-    }
-
-    // Update image to stay in front of sphere
+    if (sphereRef.current) sphereRef.current.scale.set(pulse, pulse, pulse);
     if (imageRef.current) {
-      const direction = new Vector3().subVectors(camera.position, new Vector3(0, 0, 0)).normalize();
-      const offset = direction.multiplyScalar(0.52); // push image further forward
+      const dir = new Vector3()
+        .subVectors(camera.position, new Vector3(0, 0, 0))
+        .normalize();
+      const offset = dir.multiplyScalar(0.52);
       imageRef.current.position.set(offset.x, offset.y, offset.z);
       imageRef.current.lookAt(camera.position);
-      imageRef.current.scale.set(pulse, pulse, pulse); // sync size
+      imageRef.current.scale.set(pulse, pulse, pulse);
     }
   });
 
+  const onOver = e => {
+    e.stopPropagation();
+    setHovered(true);
+    gl.domElement.style.cursor = 'pointer';
+  };
+  const onOut = e => {
+    e.stopPropagation();
+    setHovered(false);
+    gl.domElement.style.cursor = 'auto';
+  };
+
+  const onClick = e => {
+    e.stopPropagation();
+    navigate('/home');
+  };
+
   return (
     <group>
-      {/* Pulsating Sphere */}
       <mesh
         ref={sphereRef}
-        onPointerOver={(e) => {
-          e.stopPropagation();
-          setHovered(true);
-        }}
-        onPointerOut={(e) => {
-          e.stopPropagation();
-          setHovered(false);
-        }}
+        onPointerOver={onOver}
+        onPointerOut={onOut}
+        onClick={onClick}           
       >
         <sphereGeometry args={[0.4, 32, 32]} />
         <meshStandardMaterial
@@ -50,13 +59,12 @@ export default function CenterNode() {
         />
       </mesh>
 
-      {/* Profile Image in front of the sphere */}
       <mesh ref={imageRef}>
         <planeGeometry args={[0.88, 0.88]} />
         <meshBasicMaterial
           map={texture}
           transparent
-          depthTest={false} // show image on top
+          depthTest={false}
         />
       </mesh>
     </group>

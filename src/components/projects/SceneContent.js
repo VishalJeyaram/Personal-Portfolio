@@ -1,4 +1,3 @@
-// src/components/SceneContent.js
 import React, { useMemo, useRef, useEffect } from 'react';
 import { useFrame, useLoader, useThree } from '@react-three/fiber';
 import { Stars, Html } from '@react-three/drei';
@@ -13,7 +12,6 @@ export default function SceneContent({
   setCameraMode,
   onZoomOutComplete
 }) {
-  // Distribute points on a sphere (Fibonacci)
   const projectPositions = useMemo(() => {
     const total = projects.length;
     return projects.map((_, i) => {
@@ -30,13 +28,11 @@ export default function SceneContent({
     });
   }, []);
 
-  // Load textures *inside* Canvas
   const projectTextures = useLoader(
     TextureLoader,
     projects.map((p) => p.image)
   );
 
-  // Spaceship refs & control state
   const shipRef = useRef();
   const keys = useRef({ forward: false, back: false, left: false, right: false });
   const speed = 8;
@@ -64,7 +60,6 @@ export default function SceneContent({
     };
   }, []);
 
-  // CameraZoomTo component
   function CameraZoomTo({ target, onComplete }) {
     const { camera } = useThree();
     const zoomPos = useMemo(
@@ -81,11 +76,9 @@ export default function SceneContent({
     return null;
   }
 
-  // Main update loop
   useFrame((state, delta) => {
     const disabled = cameraMode !== 'free';
 
-    // 1) Move & rotate ship (only when free)
     if (shipRef.current && !disabled) {
       if (keys.current.left)  shipRef.current.rotation.y += turnSpeed * delta;
       if (keys.current.right) shipRef.current.rotation.y -= turnSpeed * delta;
@@ -95,7 +88,6 @@ export default function SceneContent({
       shipRef.current.position.add(dir);
     }
 
-    // 2) Camera follow ship (only when free)
     if (shipRef.current && cameraMode === 'free') {
       const offset = new THREE.Vector3(0, 2, 10).applyQuaternion(shipRef.current.quaternion);
       state.camera.position.copy(shipRef.current.position).add(offset);
@@ -103,13 +95,11 @@ export default function SceneContent({
     }
   });
 
-  // Handle click → zoomin
   const handleProjectClick = (i) => {
     setCameraMode('zoomin');
     setSelectedIdx(i);
   };
 
-  // While zooming or zoomed in, disable hover/pulsate
   const disabled = cameraMode !== 'free';
 
   return (
@@ -119,7 +109,6 @@ export default function SceneContent({
       <pointLight position={[5, 5, 5]} intensity={1.2} />
       <Stars radius={100} depth={50} count={4000} factor={4} saturation={0} fade />
 
-      {/* 1) Your spaceship */}
       <mesh ref={shipRef} position={[0, 0, 0]}>
         <cylinderGeometry args={[0.3, 0.3, 2, 16]} />
         <meshStandardMaterial color="#777" />
@@ -129,7 +118,6 @@ export default function SceneContent({
         </mesh>
       </mesh>
 
-      {/* 2) Project sprites */}
       {projectPositions.map((pos, i) => {
         const hoveredScale = 1.2;
         return (
@@ -150,7 +138,6 @@ export default function SceneContent({
         );
       })}
 
-      {/* 3) Labels (only when free) */}
       {cameraMode === 'free' &&
         projectPositions.map((pos, i) => (
           <Html
@@ -163,7 +150,6 @@ export default function SceneContent({
           </Html>
         ))}
 
-      {/* 4) Zoom animation */}
       {cameraMode === 'zoomin' && selectedIdx != null && (
         <CameraZoomTo
           target={projectPositions[selectedIdx]}
@@ -171,7 +157,6 @@ export default function SceneContent({
         />
       )}
 
-      {/* 5) Tooltip when zoomed */}
       {cameraMode !== 'free' && selectedIdx != null && (
         <Html center>
           <div className="project-tooltip">

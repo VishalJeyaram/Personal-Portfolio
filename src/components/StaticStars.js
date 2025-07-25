@@ -10,7 +10,7 @@ export default function StaticStars() {
       factor={4} 
       saturation={0} 
       fade 
-      speed={0} // Prevent movement
+      speed={0} 
     />
   );
 }

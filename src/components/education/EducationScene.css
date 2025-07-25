@@ -1,4 +1,3 @@
-/* src/components/EducationScene.css */
 
 .edu-modal {
   position: absolute;
@@ -21,7 +20,7 @@
 }
 
 .edu-modal h2 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: #00ffff;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -35,7 +34,7 @@
   padding: 0;
   text-align: left;
   color: #ccc;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 .edu-modal-list li {
   margin-bottom: 0.4rem;

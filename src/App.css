@@ -1,4 +1,3 @@
-/* Reset and base styles */
 body, html, #root {
   margin: 0;
   padding: 0;
@@ -39,8 +38,8 @@ h1 {
 .title {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #fff; /* white text */
-  background: rgba(0, 0, 0, 0.6); /* translucent dark background */
+  color: #fff; 
+  background: rgba(0, 0, 0, 0.6); 
   padding: 10px 16px;
   border-radius: 8px;
   backdrop-filter: blur(4px);
@@ -88,7 +87,7 @@ body, html, #root {
   content: "";
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(255, 255, 255, 0.85); /* lighter overlay */
+  background: rgba(255, 255, 255, 0.85); 
   z-index: -1;
 }
 

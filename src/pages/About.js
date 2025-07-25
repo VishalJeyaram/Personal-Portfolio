@@ -27,9 +27,11 @@ function getCoordinates(index, total, radius) {
   const y = ((index * offset) - 1) + (offset / 2);
   const r = Math.sqrt(1 - y * y);
   const phi = index * increment;
-  const x = Math.cos(phi) * r;
-  const z = Math.sin(phi) * r;
-  return [x * radius, y * radius, z * radius];
+  return [
+    Math.cos(phi) * r * radius,
+    y * radius,
+    Math.sin(phi) * r * radius
+  ];
 }
 
 function CameraAnimator({ target, isZoomedInRef, resetRef, resetCompleteRef, angleRef, sceneRef }) {
@@ -40,14 +42,12 @@ function CameraAnimator({ target, isZoomedInRef, resetRef, resetCompleteRef, ang
   useFrame(() => {
     if (isZoomedInRef.current && target) {
       resetCompleteRef.current = false;
-      const targetVec = new THREE.Vector3(...target);
-      camera.position.lerp(targetVec, speed);
+      camera.position.lerp(new THREE.Vector3(...target), speed);
       camera.lookAt(0, 2.2, 0);
     } else if (resetRef.current) {
       resetCompleteRef.current = false;
       camera.position.lerp(defaultPos, speed);
       camera.lookAt(0, 0, 0);
-
       if (camera.position.distanceTo(defaultPos) < 0.01) {
         camera.position.copy(defaultPos);
         resetRef.current = false;
@@ -55,7 +55,6 @@ function CameraAnimator({ target, isZoomedInRef, resetRef, resetCompleteRef, ang
         angleRef.current = Math.atan2(camera.position.x, camera.position.z);
       }
     }
-
     if (sceneRef.current) {
       sceneRef.current.fog = isZoomedInRef.current
         ? new THREE.Fog('#000000', 3, 11.5)
@@ -67,11 +66,17 @@ function CameraAnimator({ target, isZoomedInRef, resetRef, resetCompleteRef, ang
 }
 
 export default function About() {
-  const textRadius = 5.5;
-  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(() => {
+    return !sessionStorage.getItem('aboutVisited');
+  });
+
   const [showFlash, setShowFlash] = useState(false);
   const [hideScene, setHideScene] = useState(false);
   const [hideModal, setHideModal] = useState(false);
+  const [showPrompt, setShowPrompt] = useState(false)
+
   const isZoomedInRef = useRef(false);
   const resetRef = useRef(false);
   const cameraResetCompleteRef = useRef(true);
@@ -79,61 +84,63 @@ export default function About() {
   const [cameraTarget, setCameraTarget] = useState(null);
   const sceneRef = useRef();
   const [selectedLabel, setSelectedLabel] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2500);
+    if (!loading) {
+      setShowPrompt(true)
+      const t = setTimeout(() => setShowPrompt(false), 5000)
+      return () => clearTimeout(t)
+    }
+  }, [loading])
+
+  useEffect(() => {
+    if (!loading) return;
+    const timer = setTimeout(() => {
+      setLoading(false);
+      sessionStorage.setItem('aboutVisited', 'true');
+    }, 2500);
     return () => clearTimeout(timer);
-  }, []);
+  }, [loading]);
 
   const handleZoomOut = () => {
     isZoomedInRef.current = false;
-    setCameraTarget(null);
     resetRef.current = true;
+    setCameraTarget(null);
     setSelectedLabel(null);
     setHideModal(false);
   };
 
-  const handleViewMore = (selectedLabel) => {
+  const handleViewMore = (label) => {
     setHideModal(true);
     setShowFlash(true);
+
+    // hyperspace flash then navigation
     setTimeout(() => {
-    if (selectedLabel === 'Projects') {
-      navigate('/projects');
-    } else if (selectedLabel === 'Education') {
-      navigate('/education');
-    } else if (selectedLabel === 'Certifications') {
-      navigate('/certifications');
-    }
+      if (label === 'Projects') navigate('/projects');
+      else if (label.includes('Education')) navigate('/education');
+      else if (label.includes('Certifications')) navigate('/certifications');
+      else if (label.includes('Work')) navigate('/workexperience');
+      else if (label.includes('Skills')) navigate('/skills');
     }, 800);
 
-    
+    // hide scene almost immediately so flash shows full-screen
+    setTimeout(() => setHideScene(true), 100);
 
-    setTimeout(() => {
-      setHideScene(true);
-    }, 100);
-
-    setTimeout(() => {
-      setShowFlash(false);
-    }, 800);
+    // then clear the flash
+    setTimeout(() => setShowFlash(false), 800);
   };
 
-  const textNodes = useMemo(() => (
-    labels.map((label, i) => {
-      const position = getCoordinates(i, labels.length, textRadius);
-      const nodeWorldPosition = new THREE.Vector3(...position.map(coord => coord * 2.2));
-      const direction = nodeWorldPosition.clone().normalize();
-
-      const targetDistance = 10.0;
-      const offset = direction.multiplyScalar(targetDistance);
-      const target = [offset.x, offset.y, offset.z];
-
+  const textNodes = useMemo(() => {
+    return labels.map((label, i) => {
+      const pos = getCoordinates(i, labels.length, 5.5);
+      const worldPos = new THREE.Vector3(...pos).multiplyScalar(2.2).normalize().multiplyScalar(10);
+      const target = [worldPos.x, worldPos.y, worldPos.z];
       return (
-        <group key={label} position={position}>
-          <WebLine start={[0, 0, 0]} end={[-position[0], -position[1], -position[2]]} />
-          <OrbitingTextNode 
-            position={[0, 0, 0]} 
-            label={label} 
+        <group key={label} position={pos}>
+          <WebLine start={[0,0,0]} end={pos.map(v => -v)} />
+          <OrbitingTextNode
+            position={[0,0,0]}
+            label={label}
             isSelected={label === selectedLabel}
             onClick={() => {
               if (!isZoomedInRef.current) {
@@ -151,8 +158,8 @@ export default function About() {
           />
         </group>
       );
-    })
-  ), [selectedLabel, isZoomedInRef.current]);
+    });
+  }, [selectedLabel]);
 
   return (
     <div className="about-container">
@@ -167,17 +174,22 @@ export default function About() {
 
       {!loading && (
         <>
+          {showPrompt && (
+            <div className="orbit-prompt">
+              Click and drag to move around the 3D Space and use your mouse scroll wheel to zoom in and out
+            </div>
+          )}
           {!hideScene && (
             <Canvas
               camera={{ position: [0, 0, 15], fov: 50 }}
               onCreated={({ scene }) => { sceneRef.current = scene; }}
             >
               <ambientLight intensity={1} />
-              <pointLight position={[10, 10, 10]} intensity={3} color="#00bfff" />
-              <OrbitControls enableZoom={true} enablePan={false} />
+              <pointLight position={[10,10,10]} intensity={3} color="#00bfff" />
+              <OrbitControls enableZoom enablePan={false} />
               <StaticStars />
               <WebStructure />
-              {!isZoomedInRef.current && <CenterNode disableInteraction={true} disableHover={true} />}
+              {!isZoomedInRef.current && <CenterNode disableInteraction disableHover />}
               <PlanetCluster />
               {textNodes}
               <WebStructureLabelRing />
@@ -194,9 +206,17 @@ export default function About() {
 
           {selectedLabel && !hideModal && (
             <div className="zoom-modal">
-              <h2>Would you like to learn more about my {selectedLabel}?</h2>
-              <button className="portfolio-button" onClick={ () => handleViewMore(selectedLabel)}>View More</button>
-              <button className="portfolio-button" onClick={handleZoomOut}>Close</button>
+              {selectedLabel === 'Interests'
+                ? <h2>My apologies... This page is still being developed.</h2>
+                : <h2>Would you like to learn more about my {selectedLabel}?</h2>}
+              {selectedLabel !== 'Interests' && (
+                <button className="portfolio-button" onClick={() => handleViewMore(selectedLabel)}>
+                  View More
+                </button>
+              )}
+              <button className="portfolio-button" onClick={handleZoomOut}>
+                Close
+              </button>
             </div>
           )}
         </>

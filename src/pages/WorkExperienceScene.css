@@ -12,9 +12,9 @@
   padding: 4px 8px;
   border: 1px solid #00ffff;
   border-radius: 4px;
-  font-size: 1.9rem;
+  font-size: 1.2rem;
   text-align: center;
-  width: 10vw;
+  width: 15vw;
 }
 
 .work-modal {
@@ -24,20 +24,22 @@
   padding: 16px 24px;
   color: #eee;
   text-align: left;
-  width: 20vw;
+  width: 25vw;
 }
 .work-modal h3 {
   margin: 0 0 8px;
   color: #00ffff;
-  font-size: 1.1rem;
+  font-size: 1.8rem;
 }
 .work-modal ul {
   padding-left: 1.2rem;
   margin: 0;
 }
 .work-modal li {
+  margin-top: 1.2rem;
   margin-bottom: 0.4rem;
   line-height: 1.3;
+  font-size: 1.1rem;
 }
 .close-btn {
   background: transparent;
@@ -47,6 +49,5 @@
   padding: 4px 8px;
   cursor: pointer;
   float: right;
-  font-size: 0.8rem;
-  margin-bottom: 8px;
+  font-size: 1.5rem;
 }

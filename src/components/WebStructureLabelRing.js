@@ -1,15 +1,16 @@
 import React from 'react';
 import { Text } from '@react-three/drei';
+import { identity } from '../data/personal_info';
 
 export default function WebStructureLabelRing() {
-  const topName = ' VISHAL ';
-  const bottomName = ' JEYARAM ';
+  const topName = identity.topName
+  const bottomName = identity.bottomName;
 
-  const topRadius = 1.80; // separate radius for top
-  const bottomRadius = 1.80; // separate radius for bottom
+  const topRadius = 1.80; 
+  const bottomRadius = 1.80; 
 
   const topLetters = topName.split('').map((char, i) => {
-    const angle = Math.PI - (Math.PI / (topName.length - 1)) * i; // reversed order to start from left
+    const angle = Math.PI - (Math.PI / (topName.length - 1)) * i; 
     const x = topRadius * Math.cos(angle);
     const y = topRadius * Math.sin(angle);
     return (

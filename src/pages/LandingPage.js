@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
-import profilePic from '../assets/profile.jpg'; // Replace with your actual image path
+import profilePic from '../data/profile.jpg'; 
+import { identity } from '../data/personal_info';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -9,7 +10,7 @@ const LandingPage = () => {
   return (
     <div className="landing-container">
       <div className="text-content">
-        <h1>Hello There! <br />I'm <span className="name-highlight">Vishal Jeyaram</span></h1>
+        <h1>Hello There! <br />I'm <span className="name-highlight">{identity.name}</span></h1>
         <button onClick={() => navigate('/about')} className="portfolio-button">
           View My Portfolio
         </button>

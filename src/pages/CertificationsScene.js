@@ -1,5 +1,3 @@
-// src/scenes/CertificationsScene.jsx
-
 import React, { useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
@@ -11,10 +9,9 @@ import { CERTIFICATIONS } from '../data/certifications';
 export default function CertificationsScene() {
   const sceneRef = useRef();
 
-  // layout: 2 rows × 3 cols
   const rows = 2, cols = 3;
   const perPage = rows * cols;
-  const paging = CERTIFICATIONS.slice(0, perPage); // show up to six
+  const paging = CERTIFICATIONS.slice(0, perPage); 
   const spacingX = 12, spacingY = 8, yOffset = -4;
 
   return (
