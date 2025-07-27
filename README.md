@@ -1,50 +1,47 @@
-#Portfolio Website#
+# 🌐 Vishal Jeyaram’s Personal Portfolio
 
-This repository contains the source code for my interactive 3D portfolio website built with React, React Three Fiber, and Three.js. It showcases my projects, skills, experience, and more in a dynamic, immersive environment.
+Welcome to the source for my personal portfolio website, showcasing my work as a Software Engineer and Creative Technologist.
 
-Features
+Live site: https://vishaljeyaram-portfolio.netlify.app/  
+GitHub: https://github.com/VishalJeyaram/vishaljeyaram-portfolio
 
-3D Scenes: Explore projects, education, certifications, work experience, and skills as floating nodes in a 3D space.
+---
 
-Interactive Navigation: Click and drag to orbit the camera; click nodes to zoom into detailed views and view modals.
+## 🚀 Overview
 
-Responsive Modals: Detailed project descriptions, tech stacks, links to GitHub and live demos.
+This site presents:
+- 📂 **Projects** I’ve built, from startups to capstones  
+- 📖 My **skills** & Education milestones  
+- ✉️ **Contact** & social links
 
-Music Toggle: Control background music with a sleek toggle switch.
+---
 
-Global About Button: Persistent info panel about the app’s tech and music.
+## 🛠 Tech Stack
 
-Back Button: Quick return to About from any page except landing.
+- **Framework**: React.js, React Three Fiber & Drei  
+- **Routing**: React Router v6  
+- **3D / Graphics**: Three.js, GLSL shaders  
+- **Styling**: CSS Modules, Tailwind CSS  
+- **Deployment**: Netlify (with `_redirects` for SPA support)  
+- **Audio**: HTML5 Audio API  
+---
 
-Tech Stack
+## 📦 Installation & Local Development
 
-Frontend: React.js, React Router
-
-3D Rendering: React Three Fiber, Drei, Three.js
-
-State & Effects: React Hooks (useState, useEffect, useRef)
-
-Audio: HTML5 Audio API
-
-Styles: CSS Modules
-
-Getting Started
-
-Clone the repo
-
-git clone https://github.com/VishalJeyaram/Personal-Porfolio.git
-cd Personal-Porfolio
-
-Install dependencies
-
-npm install
-# or
-yarn install
-
-Run locally
-
-npm start
-# or
-yarn start
-
-Open http://localhost:3000 to explore the portfolio.
+1. **Clone** the repo  
+   ```bash
+   git clone https://github.com/VishalJeyaram/vishaljeyaram-portfolio.git
+   cd vishaljeyaram-portfolio
+   ```
+2 **Install dependencies
+   ```bash
+   npm install
+   # or
+   yarn
+   ```
+3 **Run locally
+   ```bash
+  npm start
+  # or
+  yarn start
+   ```
