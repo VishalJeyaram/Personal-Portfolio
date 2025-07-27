@@ -63,7 +63,8 @@ function MusicProvider({ children }) {
     '/education',
     '/workexperience',
     '/skills',
-    '/home'
+    '/home',
+    '/certifications'
   ].includes(location.pathname);
 
   return (
