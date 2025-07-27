@@ -1,4 +1,4 @@
-# 🌐 Vishal Jeyaram’s Personal Portfolio
+# 🌐 My Personal Portfolio
 
 Welcome to the source for my personal portfolio website, showcasing my work as a Software Engineer and Creative Technologist.
 
