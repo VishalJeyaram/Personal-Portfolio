@@ -33,15 +33,7 @@ This site presents:
    git clone https://github.com/VishalJeyaram/vishaljeyaram-portfolio.git
    cd vishaljeyaram-portfolio
    ```
-2 **Install dependencies
-   ```bash
+2. **Install dependencies and start projects
+   ```
    npm install
-   # or
-   yarn
-   ```
-3 **Run locally
-   ```bash
-  npm start
-  # or
-  yarn start
-   ```
+   npm start
