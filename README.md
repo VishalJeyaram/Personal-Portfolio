@@ -1,9 +1,9 @@
 # 🌐 My Personal Portfolio
 
-Welcome to the source for my personal portfolio website, showcasing my work as a Software Engineer and Creative Technologist.
+Welcome to the source code for my personal portfolio website, showcasing my work as a Software Engineer and Creative Technologist. This took me over a long time to make and I hope you enjoy it :)
 
 Live site: https://vishaljeyaram-portfolio.netlify.app/  
-GitHub: https://github.com/VishalJeyaram/vishaljeyaram-portfolio
+GitHub: https://github.com/VishalJeyaram/Personal-Portfolio
 
 ---
 
@@ -33,15 +33,7 @@ This site presents:
    git clone https://github.com/VishalJeyaram/vishaljeyaram-portfolio.git
    cd vishaljeyaram-portfolio
    ```
-2 **Install dependencies
-   ```bash
+2. **Install dependencies and start projects
+   ```
    npm install
-   # or
-   yarn
-   ```
-3 **Run locally
-   ```bash
-  npm start
-  # or
-  yarn start
-   ```
+   npm start
