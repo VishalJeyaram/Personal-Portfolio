@@ -19,22 +19,56 @@ import AboutThisApp from './components/AboutThisApp';
 import BackToAboutButton from './components/BackToAboutButton';
 import './App.css';
 
+const PLAYLIST = [
+  '/music/Love_Train.mp3',
+  '/music/come_and_get_your_love.mp3',
+  '/music/punk_rocker.mp3',
+];
+
 function MusicProvider({ children }) {
   const location = useLocation();
   const [musicEnabled, setMusicEnabled] = useState(false);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const audioRef = useRef(null);
 
-  // track whether we've already auto–started on /about
   const hasAutoStartedRef = useRef(false);
 
-  // initialize audio once
   useEffect(() => {
-    audioRef.current = new Audio('/music/love_train.mp3');
-    audioRef.current.loop = true;
-    audioRef.current.volume = 0.4;
+    if (PLAYLIST.length > 0 && !audioRef.current) {
+      audioRef.current = new Audio(PLAYLIST[0]);
+      audioRef.current.volume = 0.4;
+      
+      // When a track ends, play the next one
+      const handleEnded = () => {
+        setCurrentTrackIndex((prev) => (prev + 1) % PLAYLIST.length);
+      };
+      
+      audioRef.current.addEventListener('ended', handleEnded);
+      
+      return () => {
+        if (audioRef.current) {
+          audioRef.current.removeEventListener('ended', handleEnded);
+          audioRef.current.pause();
+          audioRef.current = null;
+        }
+      };
+    }
   }, []);
 
-  // auto–play the first time the user arrives on /about
+  useEffect(() => {
+    if (!audioRef.current || PLAYLIST.length === 0) return;
+    
+    const wasPlaying = !audioRef.current.paused;
+    
+    audioRef.current.pause();
+    audioRef.current.src = PLAYLIST[currentTrackIndex];
+    audioRef.current.load();
+    
+    if (wasPlaying && musicEnabled) {
+      audioRef.current.play().catch(() => {});
+    }
+  }, [currentTrackIndex]); // Removed musicEnabled dependency
+
   useEffect(() => {
     if (
       location.pathname === '/about' &&
@@ -46,7 +80,6 @@ function MusicProvider({ children }) {
     }
   }, [location.pathname, musicEnabled]);
 
-  // play or pause whenever musicEnabled changes
   useEffect(() => {
     if (!audioRef.current) return;
     if (musicEnabled) {
@@ -56,7 +89,16 @@ function MusicProvider({ children }) {
     }
   }, [musicEnabled]);
 
-  // only show the toggle on these routes
+  const nextTrack = () => {
+    if (PLAYLIST.length === 0) return;
+    setCurrentTrackIndex((prev) => (prev + 1) % PLAYLIST.length);
+  };
+
+  const previousTrack = () => {
+    if (PLAYLIST.length === 0) return;
+    setCurrentTrackIndex((prev) => (prev - 1 + PLAYLIST.length) % PLAYLIST.length);
+  };
+
   const showToggle = [
     '/about',
     '/projects',
@@ -74,6 +116,10 @@ function MusicProvider({ children }) {
         <MusicToggle
           musicEnabled={musicEnabled}
           setMusicEnabled={setMusicEnabled}
+          currentTrackIndex={currentTrackIndex}
+          totalTracks={PLAYLIST.length}
+          onNext={nextTrack}
+          onPrevious={previousTrack}
         />
       )}
     </>

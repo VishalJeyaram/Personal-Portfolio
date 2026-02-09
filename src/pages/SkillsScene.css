@@ -1,9 +1,24 @@
 canvas {
   display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .skill-label {
   font-family: sans-serif;
   color: #fff;
   text-shadow: 0 0 4px #000;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  canvas {
+    min-width: 320px;
+  }
+}
+
+@media (max-width: 480px) {
+  canvas {
+    min-width: 280px;
+  }
 }

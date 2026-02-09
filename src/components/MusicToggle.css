@@ -11,7 +11,50 @@
   font-family: 'Orbitron', sans-serif;
   color: #ccffff;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 8px;
+}
+
+.music-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.music-nav-btn {
+  background: transparent;
+  border: 1px solid #00ffff44;
+  color: #00ffff;
+  font-size: 1.5rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+.music-nav-btn:hover {
+  background: rgba(0, 255, 255, 0.2);
+  border-color: #00ffff;
+  box-shadow: 0 0 8px #00ffff66;
+  transform: scale(1.1);
+}
+
+.music-nav-btn:active {
+  transform: scale(0.95);
+}
+
+.track-indicator {
+  font-size: 0.75rem;
+  color: #88ccff;
+  letter-spacing: 0.5px;
+  opacity: 0.8;
 }
 
 .sound-label {
@@ -59,4 +102,88 @@
   font-size: 1.85rem;
   letter-spacing: 1px;
   color: #00ffff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sound-toggle {
+    bottom: 15px;
+    left: 15px;
+    padding: 6px 12px;
+    gap: 6px;
+  }
+  
+  .music-controls {
+    gap: 10px;
+  }
+  
+  .music-nav-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 1.3rem;
+  }
+  
+  .label-text {
+    font-size: 1.4rem;
+  }
+  
+  .slider {
+    width: 28px;
+    height: 12px;
+  }
+  
+  .slider::before {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .sound-label input:checked + .slider::before {
+    transform: translateX(14px);
+  }
+  
+  .track-indicator {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sound-toggle {
+    bottom: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    gap: 5px;
+  }
+  
+  .music-controls {
+    gap: 8px;
+  }
+  
+  .music-nav-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 1.1rem;
+  }
+  
+  .label-text {
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+  }
+  
+  .slider {
+    width: 24px;
+    height: 10px;
+  }
+  
+  .slider::before {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .sound-label input:checked + .slider::before {
+    transform: translateX(12px);
+  }
+  
+  .track-indicator {
+    font-size: 0.65rem;
+  }
 }

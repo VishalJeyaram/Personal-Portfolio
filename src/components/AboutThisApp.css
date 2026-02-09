@@ -33,9 +33,39 @@
   border-radius: 8px;
   padding: 1.5rem;
   max-width: 400px;
+  min-width: 280px;
   width: 90%;
   color: #ccffff;
   box-shadow: 0 0 20px #00ffff88;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .about-app__btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1rem;
+    bottom: 1rem;
+    right: 1rem;
+  }
+  
+  .about-app__modal {
+    padding: 1rem;
+    min-width: 260px;
+    max-width: 90vw;
+  }
+  
+  .about-app__modal h2 {
+    font-size: 1.3rem;
+  }
+  
+  .about-app__modal h3 {
+    font-size: 1.1rem;
+  }
+  
+  .about-app__modal ul {
+    font-size: 0.9rem;
+  }
 }
 
 .about-app__modal h2 {

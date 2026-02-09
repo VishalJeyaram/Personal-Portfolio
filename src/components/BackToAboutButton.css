@@ -7,13 +7,33 @@
   border: 2px solid #00ffff;
   border-radius: 6px;
   padding: 6px 12px;
-  font-size: 0.9rem;
+  font-size: 1.50rem;
   cursor: pointer;
   z-index: 1000;
   transition: background 0.2s, color 0.2s;
-  font-size: 1.50rem;
+  min-width: fit-content;
+  white-space: nowrap;
 }
 .back-button:hover {
   background: #00ffff;
   color: #000;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .back-button {
+    font-size: 1.2rem;
+    padding: 5px 10px;
+    top: 0.8rem;
+    right: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .back-button {
+    font-size: 1rem;
+    padding: 4px 8px;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
 }

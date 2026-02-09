@@ -1,6 +1,8 @@
 .about-container {
   width: 100vw;
+  min-width: 320px;
   height: 100vh;
+  min-height: 600px;
   background-color: #000000;
   overflow: hidden;
   margin: 0;
@@ -99,6 +101,8 @@ canvas {
   box-shadow: 0 0 20px #00ffff88;
   z-index: 10;
   animation: fadeInUp 1s ease-out;
+  min-width: 300px;
+  max-width: 90vw;
 }
 
 .zoom-modal h2 {
@@ -123,6 +127,8 @@ canvas {
   letter-spacing: 1px;
   box-shadow: 0 0 10px #00ffff88;
   margin-right: 40px;
+  min-width: fit-content;
+  white-space: nowrap;
 }
 
 .zoom-modal button:hover {
@@ -182,4 +188,102 @@ canvas {
   pointer-events: none;
   user-select: none;
   width: 20vw;
+  min-width: 250px;
+  max-width: 400px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .zoom-modal {
+    padding: 24px 36px;
+  }
+  
+  .zoom-modal h2 {
+    font-size: 1.3rem;
+  }
+  
+  .zoom-modal button {
+    font-size: 1.1rem;
+    padding: 14px 28px;
+    margin-right: 20px;
+  }
+  
+  .orbit-prompt {
+    font-size: 1.5rem;
+    width: 25vw;
+    min-width: 200px;
+  }
+  
+  .loading-title {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .zoom-modal {
+    padding: 20px 24px;
+    top: 10%;
+  }
+  
+  .zoom-modal h2 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+  }
+  
+  .zoom-modal button {
+    font-size: 1rem;
+    padding: 12px 24px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .orbit-prompt {
+    font-size: 1.2rem;
+    width: 80vw;
+    max-width: 350px;
+    right: 10px;
+    top: 10px;
+  }
+  
+  .loading-title {
+    font-size: 1.5rem;
+  }
+  
+  .loading-text {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .zoom-modal {
+    padding: 16px 20px;
+    min-width: 280px;
+  }
+  
+  .zoom-modal h2 {
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+  }
+  
+  .zoom-modal button {
+    font-size: 0.9rem;
+    padding: 10px 20px;
+    margin-right: 5px;
+    margin-bottom: 8px;
+    display: inline-block;
+  }
+  
+  .orbit-prompt {
+    font-size: 1rem;
+    width: 90vw;
+    padding: 6px 10px;
+  }
+  
+  .loading-title {
+    font-size: 1.3rem;
+  }
+  
+  .loading-bar {
+    width: 80%;
+  }
 }

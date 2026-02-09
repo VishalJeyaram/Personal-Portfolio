@@ -15,6 +15,8 @@ export default function AboutThisApp() {
 
   const songs = [
     'Love Train (Instrumental) – The O\'Jays 1972',
+    'Redbone - Come and Get Your Love (Official Instrumental) ',
+    'IGGY POP - PUNK ROCKER (KARAOKE VERSION) PUNK MEDIA KARAOKE',
   ];
 
   return (

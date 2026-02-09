@@ -10,7 +10,7 @@ export default function EducationScene() {
   return (
     <Canvas
       camera={{ position: [0, 0, 12], fov: 60 }}
-      style={{ width: '100vw', height: '100vh', background: '#000' }}
+      style={{ width: '100vw', minWidth: '320px', height: '100vh', minHeight: '600px', background: '#000' }}
     >
       {/* Lights */}
       <ambientLight intensity={0.3} />

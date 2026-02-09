@@ -17,6 +17,8 @@
   z-index: 10;
   animation: fadeInUp 0.8s ease-out;
   width: 50vw;
+  min-width: 300px;
+  max-width: 90vw;
 }
 
 .edu-modal h2 {
@@ -49,5 +51,58 @@
   to {
     opacity: 1;
     top: 14%;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .edu-modal {
+    width: 60vw;
+    padding: 14px 20px;
+  }
+  
+  .edu-modal h2 {
+    font-size: 1.1rem;
+  }
+  
+  .edu-modal-list {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .edu-modal {
+    width: 80vw;
+    padding: 12px 18px;
+    top: 10%;
+  }
+  
+  .edu-modal h2 {
+    font-size: 1rem;
+  }
+  
+  .edu-modal-list {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .edu-modal {
+    width: 90vw;
+    padding: 10px 14px;
+    top: 8%;
+  }
+  
+  .edu-modal h2 {
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+  }
+  
+  .edu-modal-list {
+    font-size: 0.85rem;
+  }
+  
+  .edu-modal-list li {
+    margin-bottom: 0.3rem;
   }
 }
